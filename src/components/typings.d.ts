@@ -3,3 +3,6 @@ export type ITodo = {
   id: number
   completed: boolean
 }
+export interface TodoFormProps {
+  onAdd(title: string): void;
+}

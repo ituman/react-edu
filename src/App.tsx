@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { createStore } from 'redux'
 import { Navbar } from './components/Navbar';
 import { AboutPage } from './pages/AboutPage';
 import { TodosPage } from './pages/TodosPage';
 
-// const store = createStore()
 
 const App: React.FC = () => {
   return (

@@ -1,12 +1,23 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteTodo, toggleTodo } from '../redux/store/todos'
 import { ITodo } from './typings'
+
+declare var confirm: (question: string) => boolean
 
 interface TodoItemProps {
   todo: ITodo
-  onToggle: (id: number) => void
-  onRemove: (id: number) => void
 }
-export const TodoItem: React.FC<TodoItemProps> = ({todo, onToggle, onRemove}) => {
+export const TodoItem: React.FC<TodoItemProps> = ({todo}) => {
+  const dispatch = useDispatch()
+
+  const removeHandler = () => {
+    if (!confirm('Вы действительно хотите удалить задачу?')) {
+      return
+    }
+    dispatch(deleteTodo(todo))
+  }
+
   const classes = ['todo']
   if (todo.completed) {
     classes.push('completed')
@@ -17,13 +28,13 @@ export const TodoItem: React.FC<TodoItemProps> = ({todo, onToggle, onRemove}) =>
       <label>
         <input type="checkbox"
           checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
+          onChange={() => dispatch(toggleTodo(todo))}
         />
         <span>{todo.title}</span>
         <i
           onClick={(event) => {
             event.preventDefault()
-            onRemove(todo.id)
+            removeHandler()
           }}
           className="material-icons red-text"
         >delete</i>

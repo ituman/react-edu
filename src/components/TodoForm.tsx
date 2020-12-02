@@ -1,19 +1,28 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addTodo } from '../redux/store/todos'
+import { ITodo } from './typings'
 
-type TodoFormProps = {
-  onAdd(title: string): void
-}
-
-export const TodoForm: React.FC<TodoFormProps> = (props) => {
+export const TodoForm: React.FC = () => {
   const [title, setTitle] = useState<string>('')
+  const dispatch = useDispatch()
 
   const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value)
   }
 
+  const addTodoHandler = () => {
+    const newTodo: ITodo = {
+      title: title,
+      id: Date.now(),
+      completed: false
+    }
+    dispatch(addTodo(newTodo))
+  }
+
   const keyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      props.onAdd(title)
+      addTodoHandler()
       setTitle('')
     }
   }

@@ -1,14 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { TodoItem } from './TodoItem'
-import { ITodo } from './typings'
+import { AppState } from '../redux/reducers/rootReducer'
 
-type TodoListProps = {
-  todos: ITodo[]
-  onRemove: (id: number) => void
-  onToggle: (id: number) => void
-}
-
-export const TodoList: React.FC<TodoListProps> = ({ todos, onRemove, onToggle }) => {
+export const TodoList: React.FC = () => {
+  const todos = useSelector((state: AppState) => state.todosState.todos)
   if (!todos.length) {
     return <div className="center">Задач пока нет!</div>
   }
@@ -19,8 +15,6 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onRemove, onToggle })
           <TodoItem
             key={todo.id}
             todo={todo}
-            onToggle={onToggle}
-            onRemove={onRemove}
           />
         )
       }
